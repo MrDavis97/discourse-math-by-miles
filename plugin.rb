@@ -10,8 +10,10 @@ LANDING_HOME ||= "/welcome"
 
   add_model_callback(:application_controller, :before_action) do
     if !current_user &&
+        !Discourse.cache.read(landing_page_cache_key(request.remote_ip)) &&
         destination_url == "#{Discourse.base_url}/"
 
+      Discourse.cache.write landing_page_cache_key(request.remote_ip), true, expires_in: 1.minutes
       redirect_to LANDING_HOME
       return
     else
