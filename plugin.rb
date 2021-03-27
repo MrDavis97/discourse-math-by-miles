@@ -6,7 +6,7 @@
 
 after_initialize do
 
-LANDING_HOME ||= "/welcome"
+LANDING_HOME ||= "/contact"
 
   add_model_callback(:application_controller, :before_action) do
     if !current_user &&
